@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { useRouteMatch } from "react-router";
 import MovieList from "./Movies/MovieList";
-
+import Movie from "./Movies/Movie";
 import SavedList from "./Movies/SavedList";
 
 const App = () => {
@@ -11,16 +12,18 @@ const App = () => {
     setSavedList([...savedList, movie]);
   };
 
+  let mov = useRouteMatch("/movies/:movie");
   return (
     <div>
       <SavedList list={savedList} />
-      <Router>
-        <Switch>
-          <Route exact path='/'>
-            <MovieList />
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route exact path='/'>
+          <MovieList />
+        </Route>
+        <Route path='/movies/:id'>
+          <Movie mov={mov} />
+        </Route>
+      </Switch>
     </div>
   );
 };
